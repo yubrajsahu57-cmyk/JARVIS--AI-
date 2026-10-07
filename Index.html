@@ -1,0 +1,262 @@
+  <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARVIS</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #050912;
+      color: #00d9ff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .jarvis {
+      width: 92%;
+      max-width: 450px;
+      text-align: center;
+      padding: 25px;
+    }
+
+    h1 {
+      font-size: 42px;
+      letter-spacing: 8px;
+      margin-bottom: 5px;
+    }
+
+    .status {
+      color: #8b9aaa;
+      margin-bottom: 35px;
+    }
+
+    .core {
+      width: 180px;
+      height: 180px;
+      margin: auto;
+      border-radius: 50%;
+      border: 3px solid #00d9ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 20px #00d9ff,
+        0 0 60px rgba(0,217,255,0.35);
+      animation: pulse 2s infinite;
+    }
+
+    .core-inner {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid #00d9ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 35px;
+    }
+
+    @keyframes pulse {
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .response {
+      min-height: 80px;
+      margin: 35px 0 20px;
+      padding: 15px;
+      border: 1px solid #123b4a;
+      border-radius: 12px;
+      color: white;
+      background: rgba(0,217,255,0.04);
+    }
+
+    button {
+      border: 2px solid #00d9ff;
+      background: transparent;
+      color: #00d9ff;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-size: 17px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,217,255,0.3);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .commands {
+      margin-top: 25px;
+      color: #71808d;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="jarvis">
+
+    <h1>JARVIS</h1>
+    <div class="status" id="status">SYSTEM ONLINE</div>
+
+    <div class="core">
+      <div class="core-inner">◉</div>
+    </div>
+
+    <div class="response" id="response">
+      Hello. I am JARVIS. Tap the button and speak.
+    </div>
+
+    <button onclick="startListening()">🎙️ TALK TO JARVIS</button>
+
+    <div class="commands">
+      Try saying:<br>
+      "Hello Jarvis" • "What time is it?" •
+      "Open YouTube" • "Open Google"
+    </div>
+
+  </div>
+
+<script>
+
+const response = document.getElementById("response");
+const statusText = document.getElementById("status");
+
+function speak(text) {
+  response.innerText = text;
+
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "en-US";
+  speech.rate = 0.95;
+  speech.pitch = 1;
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(speech);
+}
+
+function startListening() {
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    speak("Sorry. Voice recognition is not supported in this browser.");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+
+  recognition.lang = "en-IN";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  statusText.innerText = "LISTENING...";
+
+  recognition.start();
+
+  recognition.onresult = function(event) {
+
+    const command =
+      event.results[0][0].transcript.toLowerCase();
+
+    response.innerText = "You: " + command;
+
+    processCommand(command);
+  };
+
+  recognition.onerror = function() {
+    statusText.innerText = "SYSTEM ONLINE";
+    speak("I couldn't hear you. Please try again.");
+  };
+
+  recognition.onend = function() {
+    statusText.innerText = "SYSTEM ONLINE";
+  };
+}
+
+function processCommand(command) {
+
+  if (
+    command.includes("hello") ||
+    command.includes("hi") ||
+    command.includes("hey")
+  ) {
+    speak("Hello. How can I help you?");
+  }
+
+  else if (
+    command.includes("time")
+  ) {
+    const time = new Date().toLocaleTimeString();
+    speak("The current time is " + time);
+  }
+
+  else if (
+    command.includes("date")
+  ) {
+    const date = new Date().toLocaleDateString();
+    speak("Today's date is " + date);
+  }
+
+  else if (
+    command.includes("youtube")
+  ) {
+    speak("Opening YouTube.");
+    window.open("https://www.youtube.com", "_blank");
+  }
+
+  else if (
+    command.includes("google")
+  ) {
+    speak("Opening Google.");
+    window.open("https://www.google.com", "_blank");
+  }
+
+  else if (
+    command.includes("who are you") ||
+    command.includes("your name")
+  ) {
+    speak("I am JARVIS, your personal assistant.");
+  }
+
+  else {
+    speak(
+      "I heard you say " +
+      command +
+      ". My AI brain is not connected yet."
+    );
+  }
+}
+
+</script>
+
+</body>
+</html>8767
+
+
+
+
+
+
+
+
+supported
+apk
+jarvis @#apk
+
+
+
